@@ -13,6 +13,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { toast, ToastContainer } from 'react-toastify' // Import toast and ToastContainer
 import 'react-toastify/dist/ReactToastify.css' // Import the CSS for notifications
+import { API_BASE_URL } from '@/config'
 
 const CreateRestaurant = () => {
   const [name, setName] = useState('')
@@ -120,7 +121,7 @@ const CreateRestaurant = () => {
       }
       // @ts-ignore
       const response = await axios.post(
-        'http://localhost:3000/api/restaurants',
+        `${API_BASE_URL}/api/restaurants`, // Aquí usamos la URL base
         restaurantData,
         {
           headers: {
