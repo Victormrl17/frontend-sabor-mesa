@@ -21,13 +21,17 @@ const RegisterPage = () => {
   const [error, setError] = useState('') // Estado para errores
   const navigate = useNavigate()
 
+  // Usar la variable de entorno VITE_API_URL (de Vercel) para la base URL
+  const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000'
+
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true) // Activamos el estado de carga
     setError('') // Reiniciamos cualquier error anterior
 
     try {
-      await axios.post('http://localhost:3000/api/users/register', {
+      // Usamos la variable de entorno API_BASE_URL para hacer la petición al back-end
+      await axios.post(`${API_BASE_URL}/api/users/register`, {
         name,
         email,
         password
@@ -65,7 +69,7 @@ const RegisterPage = () => {
         <CardContent>
           {!loading && (
             <form onSubmit={handleRegister}>
-              <div className='space-y-5'>
+              <div className='space-y-6'>
                 <div className='space-y-2'>
                   <label
                     htmlFor='name'
@@ -116,7 +120,7 @@ const RegisterPage = () => {
                 </div>
                 <Button
                   type='submit'
-                  className='w-full font-bold bg-red-500 hover:bg-red-600 text-white py-3 rounded-lg'
+                  className='w-full font-bold bg-red-500 hover:bg-green-600 text-white py-3 rounded-lg'
                 >
                   Registrar
                 </Button>

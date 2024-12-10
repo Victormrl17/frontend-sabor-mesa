@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import axios from 'axios'
-
+import { API_COMMENTS_URL } from '@/config'
 interface Comment {
   id: number
   content: string
@@ -14,7 +14,7 @@ const Comments = ({ restaurantId }: { restaurantId: number }) => {
   useEffect(() => {
     const fetchComments = async () => {
       const response = await axios.get(
-        `http://localhost:3000/api/comments/restaurant/${restaurantId}`
+        `${API_COMMENTS_URL}/restaurant/${restaurantId}`
       )
       setComments(response.data as Comment[])
     }
