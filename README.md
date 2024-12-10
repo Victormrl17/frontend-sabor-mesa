@@ -72,7 +72,7 @@ Users should be able to:
 
 Full stack Developer:
 
-- Victor Ramirez - [@Victormrl17](https://github.com/Victormrl17) (https://www.linkedin.com/in/victor-ramirez-8049a4193/)
+- Victor Ramirez - [Linkedin](https://www.linkedin.com/in/victor-ramirez-8049a4193/)
 
 ## Acknowledgments
 
