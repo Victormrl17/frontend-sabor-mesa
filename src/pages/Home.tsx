@@ -2,9 +2,9 @@ import { useState, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
+import { API_BASE_URL } from '@/config'
 
 export default function AgenciesLanding() {
-  // Definir un array de imágenes
   const images = [
     '/assets/Imagen2.png',
     '/assets/Imagen1.png',
@@ -18,24 +18,20 @@ export default function AgenciesLanding() {
     images: string[]
     cuisine: string
     location: string
-    comments: { rating: number }[] // Añadir comentarios con valoraciones
+    comments: { rating: number }[]
   }
 
   const [restaurants, setRestaurants] = useState<Restaurant[]>([])
 
-  // Obtener los restaurantes al cargar el componente
   useEffect(() => {
     const fetchRestaurants = async () => {
       try {
-        const response = await axios.get(
-          'http://localhost:3000/api/restaurants'
-        )
+        const response = await axios.get(`${API_BASE_URL}/api/restaurants`)
         const restaurantsData = response.data as Restaurant[]
 
-        // Para cada restaurante, obtener los comentarios
         for (const restaurant of restaurantsData) {
           const commentsResponse = await axios.get(
-            `http://localhost:3000/api/comments/restaurant/${restaurant.id}`
+            `${API_BASE_URL}/api/comments/restaurant/${restaurant.id}`
           )
           restaurant.comments = commentsResponse.data as { rating: number }[]
         }
@@ -48,25 +44,20 @@ export default function AgenciesLanding() {
     fetchRestaurants()
   }, [])
 
-  // Usamos el estado para controlar la imagen actual
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
 
-  // Cambiar la imagen automáticamente cada 3 segundos
   useEffect(() => {
     const intervalId = setInterval(() => {
       setCurrentImageIndex(prevIndex => (prevIndex + 1) % images.length)
-    }, 3000) // Cambiar cada 3 segundos
+    }, 3000)
 
-    // Limpiar el intervalo cuando el componente se desmonta
     return () => clearInterval(intervalId)
   }, [])
 
-  // Función para cambiar la imagen al hacer clic en los círculos
   const handleDotClick = (index: number) => {
     setCurrentImageIndex(index)
   }
 
-  // Función para calcular la puntuación promedio y el número de comentarios
   const getReviewData = (comments: { rating: number }[]) => {
     if (comments.length === 0) {
       return { avgRating: '--', reviewCount: 0 }
@@ -76,11 +67,10 @@ export default function AgenciesLanding() {
       (sum, comment) => sum + comment.rating,
       0
     )
-    const avgRating = (totalRating / comments.length).toFixed(1) // Redondear a 1 decimal
+    const avgRating = (totalRating / comments.length).toFixed(1)
     return { avgRating, reviewCount: comments.length }
   }
 
-  // Función para obtener una lista aleatoria de restaurantes
   const getRandomRestaurants = (restaurants: Restaurant[], count: number) => {
     const shuffled = [...restaurants].sort(() => 0.5 - Math.random())
     return shuffled.slice(0, count)
@@ -161,7 +151,6 @@ export default function AgenciesLanding() {
           <h2 className='text-2xl font-bold'>Lo más nuevo</h2>
         </div>
         <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4'>
-          {/* Mostrar los 4 primeros restaurantes aleatorios */}
           {getRandomRestaurants(restaurants, 4).map(restaurant => {
             const { avgRating, reviewCount } = getReviewData(
               restaurant.comments
@@ -174,7 +163,7 @@ export default function AgenciesLanding() {
                 <img
                   alt={`Restaurant ${restaurant.name}`}
                   className='w-full h-40 object-cover'
-                  src={restaurant.images[0] || '/assets/Imagen5.png'} // Imagen por defecto si no hay imagen
+                  src={restaurant.images[0] || '/assets/Imagen5.png'}
                 />
                 <div className='p-4'>
                   <h2 className='text-xl font-bold mt-2'>{restaurant.name}</h2>
@@ -204,7 +193,6 @@ export default function AgenciesLanding() {
           <h2 className='text-2xl font-bold'>Bares</h2>
         </div>
         <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4'>
-          {/* Mostrar los 4 primeros restaurantes aleatorios */}
           {getRandomRestaurants(restaurants, 4).map(restaurant => {
             const { avgRating, reviewCount } = getReviewData(
               restaurant.comments
@@ -217,7 +205,7 @@ export default function AgenciesLanding() {
                 <img
                   alt={restaurant.name}
                   className='w-full h-40 object-cover'
-                  src={restaurant.images[0] || '/assets/Imagen5.png'} // Imagen por defecto si no hay imagen
+                  src={restaurant.images[0] || '/assets/Imagen5.png'}
                 />
                 <div className='p-4'>
                   <h2 className='text-xl font-bold mt-2'>{restaurant.name}</h2>
@@ -243,7 +231,6 @@ export default function AgenciesLanding() {
 
       {/* Sección de Descuentos 24/7 */}
       <div id='descuentos' className='bg-gray-100'>
-        {/* Header Section */}
         <div className='bg-red-500 text-white p-6 text-center'>
           <h1 className='text-4xl font-bold'>Dsctos 24/7</h1>
           <p className='text-xl mt-2'>
@@ -262,7 +249,6 @@ export default function AgenciesLanding() {
         {/* Featured Discounts Section */}
         <div className='bg-red-500 p-6'>
           <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4'>
-            {/* Mostrar los 4 primeros restaurantes aleatorios */}
             {getRandomRestaurants(restaurants, 4).map(restaurant => {
               const { avgRating, reviewCount } = getReviewData(
                 restaurant.comments
@@ -275,7 +261,7 @@ export default function AgenciesLanding() {
                   <img
                     alt={restaurant.name}
                     className='w-full h-40 object-cover'
-                    src={restaurant.images[0] || '/assets/Imagen5.png'} // Imagen por defecto si no hay imagen
+                    src={restaurant.images[0] || '/assets/Imagen5.png'}
                   />
                   <div className='p-4'>
                     <span className='bg-pink-500 text-white text-xs font-bold px-2 py-1 rounded-full'>
@@ -315,7 +301,6 @@ export default function AgenciesLanding() {
           <h2 className='text-2xl font-bold'>Delivery</h2>
         </div>
         <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4'>
-          {/* Mostrar los 4 primeros restaurantes aleatorios */}
           {getRandomRestaurants(restaurants, 4).map(restaurant => {
             const { avgRating, reviewCount } = getReviewData(
               restaurant.comments
@@ -328,7 +313,7 @@ export default function AgenciesLanding() {
                 <img
                   alt={restaurant.name}
                   className='w-full h-40 object-cover'
-                  src={restaurant.images[0] || '/assets/Imagen5.png'} // Imagen por defecto si no hay imagen
+                  src={restaurant.images[0] || '/assets/Imagen5.png'}
                 />
                 <div className='p-4'>
                   <h2 className='text-xl font-bold mt-2'>{restaurant.name}</h2>
