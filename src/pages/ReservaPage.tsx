@@ -11,6 +11,7 @@ import {
 } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
+import { API_BASE_URL } from '@/config'
 
 interface ReservaFormData {
   date: string
@@ -23,7 +24,7 @@ const ReservaPage = () => {
     peopleCount: 1
   })
   // @ts-ignore
-  const [restaurantId, setRestaurantId] = useState<number>(1) // Suponiendo que el id del restaurante es 1
+  const [restaurantId, setRestaurantId] = useState<number>(1)
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
@@ -36,7 +37,6 @@ const ReservaPage = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
-    // Verificar que los valores sean correctos
     if (!formData.date || formData.peopleCount <= 0) {
       alert(
         'Por favor, ingrese una fecha válida y un número de personas mayor a cero.'
@@ -44,7 +44,6 @@ const ReservaPage = () => {
       return
     }
 
-    // Asegurarse de que la fecha esté en el formato correcto
     const formattedDate = new Date(formData.date).toISOString()
     const formattedRestaurantId = Number(restaurantId)
 
@@ -54,11 +53,9 @@ const ReservaPage = () => {
         alert('No estás autenticado. Por favor, inicia sesión.')
         return
       }
-
-      // Realizar la solicitud POST para crear la reserva
       // @ts-ignore
       const response = await axios.post(
-        'http://localhost:3000/api/bookings',
+        `${API_BASE_URL}/api/bookings`,
         {
           date: formattedDate,
           peopleCount: formData.peopleCount,
@@ -69,7 +66,6 @@ const ReservaPage = () => {
         }
       )
 
-      // Si la reserva es exitosa, mostrar mensaje
       alert('Reserva realizada con éxito')
     } catch (error) {
       console.error('Error al crear la reserva', error)
