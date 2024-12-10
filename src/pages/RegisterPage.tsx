@@ -22,7 +22,7 @@ const RegisterPage = () => {
   const navigate = useNavigate()
 
   // Usar la variable de entorno VITE_API_URL (de Vercel) para la base URL
-  const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000'
+  const API_BASE_URL = import.meta.env.VITE_API_URL
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault()
