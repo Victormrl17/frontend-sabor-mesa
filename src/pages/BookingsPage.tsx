@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import axios from 'axios'
-import { API_BASE_URL } from '../config' // Importamos la constante API_BASE_URL
+import { API_BASE_URL } from '../config'
 import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import {
@@ -12,8 +12,8 @@ import {
   ResponsiveModalHeader,
   ResponsiveModalFooter
 } from '@/components/ui/modal'
-import { toast, ToastContainer } from 'react-toastify' // Import toast and ToastContainer
-import 'react-toastify/dist/ReactToastify.css' // Import the CSS for notifications
+import { toast, ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 interface Booking {
   id: number
@@ -38,19 +38,15 @@ const BookingsPage = () => {
   const [selectedBooking, setSelectedBooking] = useState<BookingDetails | null>(
     null
   )
-  const [isModalOpen, setIsModalOpen] = useState(false) // Controla la visibilidad del modal
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
-  // Cargar las reservas al cargar el componente
   useEffect(() => {
     const fetchBookings = async () => {
       const token = localStorage.getItem('token')
       try {
-        const response = await axios.get(
-          `${API_BASE_URL}/api/bookings/user`, // Usamos la constante API_BASE_URL
-          {
-            headers: { Authorization: `Bearer ${token}` }
-          }
-        )
+        const response = await axios.get(`${API_BASE_URL}/api/bookings/user`, {
+          headers: { Authorization: `Bearer ${token}` }
+        })
         setBookings(response.data as Booking[])
       } catch (error) {
         console.error('Error al cargar las reservas', error)
@@ -65,18 +61,17 @@ const BookingsPage = () => {
     fetchBookings()
   }, [])
 
-  // Obtener los detalles de una reserva
   const handleViewDetails = async (bookingId: number) => {
     try {
       const token = localStorage.getItem('token')
       const response = await axios.get(
-        `${API_BASE_URL}/api/bookings/${bookingId}/details`, // Usamos la constante API_BASE_URL
+        `${API_BASE_URL}/api/bookings/${bookingId}/details`,
         {
           headers: { Authorization: `Bearer ${token}` }
         }
       )
       setSelectedBooking(response.data as BookingDetails)
-      setIsModalOpen(true) // Abre el modal cuando se seleccionan los detalles de la reserva
+      setIsModalOpen(true)
       toast.info('Detalles de la reserva cargados', {
         position: 'top-center',
         autoClose: 3000,
@@ -99,7 +94,7 @@ const BookingsPage = () => {
     const token = localStorage.getItem('token')
     try {
       const response = await axios.delete(
-        `${API_BASE_URL}/api/bookings/${bookingId}`, // Usamos la constante API_BASE_URL
+        `${API_BASE_URL}/api/bookings/${bookingId}`,
         {
           headers: { Authorization: `Bearer ${token}` }
         }
@@ -111,7 +106,6 @@ const BookingsPage = () => {
         hideProgressBar: true,
         theme: 'light'
       })
-      // Actualiza la lista de reservas eliminando la reserva eliminada
       setBookings(prevBookings =>
         prevBookings.filter(booking => booking.id !== bookingId)
       )

@@ -12,7 +12,6 @@ export const AuthContext = createContext<AuthContextType | undefined>(undefined)
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false)
 
-  // Verificar el token en localStorage en cada renderizado
   useEffect(() => {
     const token = localStorage.getItem('token')
     if (token) {
@@ -20,7 +19,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     } else {
       setIsAuthenticated(false)
     }
-  }, []) // Este efecto solo se ejecutará al montar el componente
+  }, [])
 
   const login = () => {
     setIsAuthenticated(true)

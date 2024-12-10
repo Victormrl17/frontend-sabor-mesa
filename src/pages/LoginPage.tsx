@@ -13,13 +13,13 @@ import {
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Link } from 'react-router-dom'
-import { toast, ToastContainer } from 'react-toastify' // Import the toast function and ToastContainer
-import 'react-toastify/dist/ReactToastify.css' // Import the CSS for notifications
+import { toast, ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 const LoginPage = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [loading, setLoading] = useState(false) // Estado de carga
+  const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const navigate = useNavigate()
   const authContext = useContext(AuthContext)
@@ -30,37 +30,37 @@ const LoginPage = () => {
   const { login } = authContext
 
   const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    setError('');
-  
-    const backendUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000'; // Usando la variable de entorno
-  
+    e.preventDefault()
+    setLoading(true)
+    setError('')
+
+    const backendUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000'
+
     try {
       const response = await axios.post<{ token: string }>(
-        `${backendUrl}/api/users/login`, // Usando la URL del backend
+        `${backendUrl}/api/users/login`,
         { email, password }
-      );
-      localStorage.setItem('token', response.data.token);
-      login();
-      navigate('/restaurants');
+      )
+      localStorage.setItem('token', response.data.token)
+      login()
+      navigate('/restaurants')
       toast.success('Bienvenido de vuelta!', {
         position: 'top-center',
         autoClose: 3000,
         hideProgressBar: true,
         theme: 'light'
-      });
+      })
     } catch (error) {
       toast.error('Error al iniciar sesión. Verifica tus credenciales.', {
         position: 'top-center',
         autoClose: 3000,
         hideProgressBar: true,
         theme: 'light'
-      });
+      })
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  };
+  }
 
   return (
     <main className='flex justify-center items-center h-screen bg-gradient-to-r from-blue-500 to-purple-500 relative'>

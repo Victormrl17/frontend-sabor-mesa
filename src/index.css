@@ -42,7 +42,7 @@ body {
   @apply min-h-screen flex flex-col bg-gray-50;
 
   &.dark {
-    background-color: hsl(0, 100%, 10%); /* Rojo oscuro para tema oscuro */
+    background-color: hsl(0, 100%, 10%);
     color: #fff;
   }
 }
@@ -58,12 +58,12 @@ h6 {
 
 input:-webkit-autofill,
 input:-webkit-autofill:focus {
-  -webkit-box-shadow: 0 0 0px 1000px hsl(0, 100%, 89%) inset; /* Rojo claro */
-  -webkit-text-fill-color: hsla(0, 7%, 12%); /* Color oscuro para el texto */
+  -webkit-box-shadow: 0 0 0px 1000px hsl(0, 100%, 89%) inset;
+  -webkit-text-fill-color: hsla(0, 7%, 12%);
 }
 
 h1.web-name {
-  color: hsl(360, 84%, 57%); /* Rojo vibrante */
+  color: hsl(360, 84%, 57%);
   position: relative;
   z-index: 1;
   cursor: pointer;
@@ -71,18 +71,18 @@ h1.web-name {
 
 .dark h1.web-name {
   background: border-box
-    linear-gradient(99deg, hsl(0, 100%, 50%), #edd9d9, hsl(0, 100%, 50%)); /* Rojo en tema oscuro */
+    linear-gradient(99deg, hsl(0, 100%, 50%), #edd9d9, hsl(0, 100%, 50%));
   background-clip: text;
   color: transparent;
 }
 
 h1.web-name::before {
-  content: 'ExploraPerú';
+  content: 'Sabor&Mesa';
   position: absolute;
   top: 1;
   left: 1;
   z-index: -1;
-  color: hsla(0, 100%, 50%, 0.17); /* Sombra roja */
+  color: hsla(0, 100%, 50%, 0.17);
   filter: blur(2px);
 }
 

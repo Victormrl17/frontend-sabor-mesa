@@ -17,29 +17,28 @@ const RegisterPage = () => {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [loading, setLoading] = useState(false) // Estado de carga
-  const [error, setError] = useState('') // Estado para errores
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
   const navigate = useNavigate()
-
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault()
-    setLoading(true) // Activamos el estado de carga
-    setError('') // Reiniciamos cualquier error anterior
+    setLoading(true)
+    setError('')
 
     try {
-      // Usamos la variable de entorno API_BASE_URL para hacer la petición al back-end
-      const backendUrl = import.meta.env.VITE_API_URL|| 'http://localhost:3000'; // Usar la variable de entorno o la URL predeterminada
-await axios.post(`${backendUrl}/api/users/register`, 
-  { name, email, password },
-  { headers: { 'Content-Type': 'application/json' } }
-);
+      const backendUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000'
+      await axios.post(
+        `${backendUrl}/api/users/register`,
+        { name, email, password },
+        { headers: { 'Content-Type': 'application/json' } }
+      )
       alert('Registro exitoso, ahora puedes iniciar sesión.')
       navigate('/login')
     } catch (error) {
       setError('Error al registrarse. Intenta nuevamente.')
     } finally {
-      setLoading(false) // Desactivamos el loader después de la respuesta
+      setLoading(false)
     }
   }
 

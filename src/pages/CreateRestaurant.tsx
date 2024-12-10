@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import axios from 'axios'
-import { uploadImageToCloudinary } from '../utils/uploadImage' // Importamos la función de carga de imágenes
+import { uploadImageToCloudinary } from '../utils/uploadImage'
 import {
   Card,
   CardHeader,
@@ -11,18 +11,17 @@ import {
 } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { toast, ToastContainer } from 'react-toastify' // Import toast and ToastContainer
-import 'react-toastify/dist/ReactToastify.css' // Import the CSS for notifications
+import { toast, ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 import { API_BASE_URL } from '@/config'
 
 const CreateRestaurant = () => {
   const [name, setName] = useState('')
   const [location, setLocation] = useState('')
   const [cuisine, setCuisine] = useState('')
-  const [images, setImages] = useState<string[]>([]) // Estado para guardar las URLs de las imágenes
-  const [loading, setLoading] = useState(false) // Estado para manejar la carga de imágenes
+  const [images, setImages] = useState<string[]>([])
+  const [loading, setLoading] = useState(false)
 
-  // Lista de distritos de Lima Metropolitana
   const limaDistritos = [
     'Barranco',
     'Breña',
@@ -56,7 +55,6 @@ const CreateRestaurant = () => {
     'Villa María del Triunfo'
   ]
 
-  // Lista de tipos de comida
   const cuisines = [
     'Fusión Peruana-Japonesa (Nikkei)',
     'Fusión Peruana-China (Chifa)',
@@ -73,31 +71,29 @@ const CreateRestaurant = () => {
     'Comida de Autor'
   ]
 
-  // Función para manejar el cambio de imágenes
   const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files
     if (files) {
-      setLoading(true) // Activamos el loader cuando empieza la carga de imágenes
-      const imageUrls: string[] = [] // Arreglo para almacenar las URLs de las imágenes cargadas
+      setLoading(true)
+      const imageUrls: string[] = []
       for (let i = 0; i < files.length; i++) {
         try {
-          const url = await uploadImageToCloudinary(files[i]) // Subimos la imagen
-          imageUrls.push(url) // Añadimos la URL al arreglo
+          const url = await uploadImageToCloudinary(files[i])
+          imageUrls.push(url)
         } catch (error) {
           toast.error('Error al subir las imágenes', {
-            position: 'top-center', // Toast at the top-center
-            autoClose: 3000, // Auto close after 3 seconds
-            hideProgressBar: true, // Hide progress bar
-            theme: 'light' // Optional theme
+            position: 'top-center',
+            autoClose: 3000,
+            hideProgressBar: true,
+            theme: 'light'
           })
         }
       }
-      setImages(imageUrls) // Guardamos las URLs de las imágenes en el estado
-      setLoading(false) // Desactivamos el loader cuando las imágenes han sido cargadas
+      setImages(imageUrls)
+      setLoading(false)
     }
   }
 
-  // Función para manejar el envío del formulario
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
@@ -105,11 +101,11 @@ const CreateRestaurant = () => {
       name,
       location,
       cuisine,
-      images // Las URLs de las imágenes ya cargadas
+      images
     }
 
     try {
-      const token = localStorage.getItem('token') // Obtener token de autenticación
+      const token = localStorage.getItem('token')
       if (!token) {
         toast.error('No autenticado. Por favor, inicia sesión.', {
           position: 'top-center',
@@ -121,7 +117,7 @@ const CreateRestaurant = () => {
       }
       // @ts-ignore
       const response = await axios.post(
-        `${API_BASE_URL}/api/restaurants`, // Aquí usamos la URL base
+        `${API_BASE_URL}/api/restaurants`,
         restaurantData,
         {
           headers: {
@@ -140,7 +136,7 @@ const CreateRestaurant = () => {
       setName('')
       setLocation('')
       setCuisine('')
-      setImages([]) // Limpiar el estado de las imágenes después de enviar
+      setImages([])
     } catch {
       toast.error('Error al crear el restaurante', {
         position: 'top-center',
@@ -231,9 +227,9 @@ const CreateRestaurant = () => {
               id='images'
               accept='image/*'
               multiple
-              onChange={handleImageChange} // Llamar a la función para cargar imágenes
+              onChange={handleImageChange}
               className='w-full p-2 border border-gray-300 rounded mt-1 bg-white text-black'
-              disabled={loading} // Deshabilitar el input de imágenes mientras se están subiendo
+              disabled={loading}
             />
 
             {/* Previsualización de las imágenes cargadas */}
@@ -254,11 +250,9 @@ const CreateRestaurant = () => {
             </div>
           </div>
 
-          {/* Loader o spinner */}
           {loading && (
             <div className='flex justify-center mb-4'>
               <div className='loader'>Cargando...</div>{' '}
-              {/* Aquí puedes poner un spinner si prefieres */}
             </div>
           )}
         </CardContent>
@@ -267,7 +261,7 @@ const CreateRestaurant = () => {
           <Button
             type='submit'
             className='px-6 py-2 bg-primary text-white rounded hover:bg-primary-dark'
-            disabled={loading || images.length === 0} // Deshabilitar el botón mientras se cargan las imágenes o no hay imágenes cargadas
+            disabled={loading || images.length === 0}
             onClick={handleSubmit}
           >
             {loading ? 'Cargando...' : 'Crear Restaurante'}
@@ -275,7 +269,6 @@ const CreateRestaurant = () => {
         </CardFooter>
       </Card>
 
-      {/* ToastContainer where to display the notifications */}
       <ToastContainer />
     </div>
   )
