@@ -30,35 +30,37 @@ const LoginPage = () => {
   const { login } = authContext
 
   const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setLoading(true) // Activamos el estado de carga
-    setError('') // Reiniciamos cualquier error anterior
-
+    e.preventDefault();
+    setLoading(true);
+    setError('');
+  
+    const backendUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000'; // Usando la variable de entorno
+  
     try {
       const response = await axios.post<{ token: string }>(
-        'http://localhost:3000/api/users/login',
+        `${backendUrl}/api/users/login`, // Usando la URL del backend
         { email, password }
-      )
-      localStorage.setItem('token', response.data.token)
-      login()
-      navigate('/restaurants')
+      );
+      localStorage.setItem('token', response.data.token);
+      login();
+      navigate('/restaurants');
       toast.success('Bienvenido de vuelta!', {
-        position: 'top-center', // Position the toast at the top-center
-        autoClose: 3000, // Auto close after 3 seconds
-        hideProgressBar: true, // Optionally hide the progress bar
-        theme: 'light' // Set the theme (optional)
-      })
+        position: 'top-center',
+        autoClose: 3000,
+        hideProgressBar: true,
+        theme: 'light'
+      });
     } catch (error) {
       toast.error('Error al iniciar sesión. Verifica tus credenciales.', {
-        position: 'top-center', // Position the toast at the top-center
-        autoClose: 3000, // Auto close after 3 seconds
-        hideProgressBar: true, // Optionally hide the progress bar
-        theme: 'light' // Set the theme (optional)
-      })
+        position: 'top-center',
+        autoClose: 3000,
+        hideProgressBar: true,
+        theme: 'light'
+      });
     } finally {
-      setLoading(false) // Desactivamos el loader después de la respuesta
+      setLoading(false);
     }
-  }
+  };
 
   return (
     <main className='flex justify-center items-center h-screen bg-gradient-to-r from-blue-500 to-purple-500 relative'>
