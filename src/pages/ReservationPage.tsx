@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import axios from 'axios'
+import { API_BASE_URL } from '@/config'
 
 interface Restaurant {
   id: number
@@ -28,7 +29,7 @@ const RestaurantDetailPage = () => {
       const token = localStorage.getItem('token')
       try {
         const response = await axios.get<Restaurant>(
-          `http://localhost:3000/api/restaurants/${restaurantId}`,
+          `${API_BASE_URL}/api/restaurants/${restaurantId}`,
           {
             headers: { Authorization: `Bearer ${token}` }
           }
@@ -42,7 +43,7 @@ const RestaurantDetailPage = () => {
     const fetchReviews = async () => {
       try {
         const response = await axios.get<Comment[]>(
-          `http://localhost:3000/api/comments/restaurant/${restaurantId}`
+          `${API_BASE_URL}/api/comments/restaurant/${restaurantId}`
         )
         setReviews(response.data)
       } catch (error) {
@@ -65,9 +66,8 @@ const RestaurantDetailPage = () => {
       return
     }
 
-    const restaurantIdNum = Number(restaurantId) // Convierte restaurantId a número
+    const restaurantIdNum = Number(restaurantId)
 
-    // Asegúrate de que el contenido de la reseña no esté vacío
     if (!newReview.content.trim()) {
       alert('Por favor, escribe un contenido para la reseña.')
       return
@@ -75,7 +75,7 @@ const RestaurantDetailPage = () => {
 
     try {
       const response = await axios.post<{ id: number }>(
-        'http://localhost:3000/api/comments',
+        `${API_BASE_URL}/api/comments`,
         {
           content: newReview.content,
           rating: newReview.rating,
@@ -87,12 +87,11 @@ const RestaurantDetailPage = () => {
       )
       console.log('Respuesta de la API al enviar reseña:', response.data)
 
-      // Actualiza las reseñas en la UI
       setReviews(prevReviews => [
         ...prevReviews,
         { ...newReview, user: { name: 'Usuario' }, id: response.data.id }
       ])
-      setNewReview({ content: '', rating: 1 }) // Reset form
+      setNewReview({ content: '', rating: 1 })
     } catch (error) {
       console.error('Error al agregar la reseña:', error)
       alert('Hubo un error al enviar la reseña. Intenta nuevamente.')
