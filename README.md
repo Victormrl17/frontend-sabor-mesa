@@ -1,50 +1,80 @@
-# React + TypeScript + Vite
+# Make It Real - ExploraPerú 🧳
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Sabor & Mesa is the perfect app for lovers of Peruvian cuisine. With our platform, you can easily reserve your table at the best restaurants in Peru, enjoying unique culinary experiences in real-time.
 
-Currently, two official plugins are available:
+## Table of Contents
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- [Overview](#overview)
+  - [The Challenge](#the-challenge)
+  - [Screenshot](#screenshot)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Built With](#built-with)
+- [Authors](#authors)
+- [Acknowledgments](#acknowledgments)
 
-## Expanding the ESLint configuration
+## Overview
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+### The Challenge
 
-- Configure the top-level `parserOptions` property like this:
+Users should be able to:
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+- **User registration and authentication**
+- **Store information in a database**
+- **Image upload **
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+### Screenshot
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+<div align="center">
+  <img src="./public/assets/Imagen6.png" alt="Landing" />
+</div>
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+## Built With
+
+**Frontend:**
+
+- Mobile-first workflow
+- Semantic HTML5 markup
+- Tailwind CSS
+- React with TypeScript
+
+**Backend:**
+
+- Node.js (Express) with TypeScript
+- PostgreSQL for database management
+
+**Operations:**
+
+- Deployed on Vercel
+
+## Installation
+
+1. Clone the repository:
+   ```sh
+   git clone https://github.com/Victormrl17/frontend-sabor-mesa.git
+   ```
+2. Navigate to the project directory:
+   ```sh
+   cd frontend-sabor-mesa
+   ```
+3. Install dependencies:
+   ```sh
+   npm install
+   ```
+
+## Usage
+
+1. Start the development server:
+   ```sh
+   npm start
+   ```
+
+## Authors
+
+Full stack Developers:
+
+- Victor Ramirez - [@Victormrl17](https://github.com/Victormrl17) (https://www.linkedin.com/in/victor-ramirez-8049a4193/)
+
+## Acknowledgments
+
+A special thanks to Make it Real, especially [@khriztianmoreno](https://github.com/khriztianmoreno) for the valuable feedback during daily meetings and demos, and to [@nayruthCalla](https://github.com/nayruthCalla) for the support and review.
