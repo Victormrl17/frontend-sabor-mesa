@@ -1,4 +1,4 @@
-# Make It Real - ExploraPerú 🧳
+# Make It Real - Sabor$Mesa 🧳
 
 Sabor & Mesa is the perfect app for lovers of Peruvian cuisine. With our platform, you can easily reserve your table at the best restaurants in Peru, enjoying unique culinary experiences in real-time.
 
@@ -71,7 +71,7 @@ Users should be able to:
 
 ## Authors
 
-Full stack Developers:
+Full stack Developer:
 
 - Victor Ramirez - [@Victormrl17](https://github.com/Victormrl17) (https://www.linkedin.com/in/victor-ramirez-8049a4193/)
 
