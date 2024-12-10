@@ -31,7 +31,7 @@ const RegisterPage = () => {
 
     try {
       // Usamos la variable de entorno API_BASE_URL para hacer la petición al back-end
-      await axios.post(`${API_BASE_URL}/api/users/register`, {
+      await axios.post(`${API_BASE_URL}/users/register`, {
         name,
         email,
         password
