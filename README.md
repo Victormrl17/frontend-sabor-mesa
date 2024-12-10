@@ -68,7 +68,7 @@ Users should be able to:
    npm start
    ```
 
-## Authors
+## Author
 
 Full stack Developer:
 
