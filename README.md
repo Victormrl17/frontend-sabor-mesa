@@ -21,7 +21,7 @@ Users should be able to:
 
 - **User registration and authentication**
 - **Store information in a database**
-- **Image upload **
+- **Image upload**
 
 ### Screenshot
 
