@@ -34,7 +34,6 @@ Users should be able to:
 **Frontend:**
 
 - Mobile-first workflow
-- Semantic HTML5 markup
 - Tailwind CSS
 - React with TypeScript
 
