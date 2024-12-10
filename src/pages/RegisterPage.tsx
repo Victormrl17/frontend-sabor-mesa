@@ -29,7 +29,7 @@ const RegisterPage = () => {
 
     try {
       // Usamos la variable de entorno API_BASE_URL para hacer la petición al back-end
-      const backendUrl = process.VITE_API_URL|| 'http://localhost:3000'; // Usar la variable de entorno o la URL predeterminada
+      const backendUrl = process.meta.env.VITE_API_URL|| 'http://localhost:3000'; // Usar la variable de entorno o la URL predeterminada
        await axios.post(`${backendUrl}/api/users/register`, {
         name,
         email,
