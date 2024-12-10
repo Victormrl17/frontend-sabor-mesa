@@ -13,6 +13,7 @@ import {
 } from '@/components/ui/modal'
 import { toast, ToastContainer } from 'react-toastify' // Import toast and ToastContainer
 import 'react-toastify/dist/ReactToastify.css' // Import the CSS for notifications
+import { API_BOOKINGS_URL } from '@/config'
 
 interface Booking {
   id: number
@@ -44,12 +45,9 @@ const BookingsPage = () => {
     const fetchBookings = async () => {
       const token = localStorage.getItem('token')
       try {
-        const response = await axios.get(
-          'http://localhost:3000/api/bookings/user',
-          {
-            headers: { Authorization: `Bearer ${token}` }
-          }
-        )
+        const response = await axios.get('${API_BOOKINGS_URL}/bookings/user', {
+          headers: { Authorization: `Bearer ${token}` }
+        })
         setBookings(response.data as Booking[])
       } catch (error) {
         console.error('Error al cargar las reservas', error)
@@ -69,7 +67,7 @@ const BookingsPage = () => {
     try {
       const token = localStorage.getItem('token')
       const response = await axios.get(
-        `http://localhost:3000/api/bookings/${bookingId}/details`,
+        `${API_BOOKINGS_URL}/bookings/${bookingId}/details`,
         {
           headers: { Authorization: `Bearer ${token}` }
         }
@@ -98,7 +96,7 @@ const BookingsPage = () => {
     const token = localStorage.getItem('token')
     try {
       const response = await axios.delete(
-        `http://localhost:3000/api/bookings/${bookingId}`,
+        `${API_BOOKINGS_URL}/bookings/${bookingId}`,
         {
           headers: { Authorization: `Bearer ${token}` }
         }
