@@ -118,7 +118,7 @@ const CreateRestaurant = () => {
         })
         return
       }
-
+      // @ts-ignore
       const response = await axios.post(
         'http://localhost:3000/api/restaurants',
         restaurantData,

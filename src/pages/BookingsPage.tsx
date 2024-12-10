@@ -4,7 +4,6 @@ import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import {
   ResponsiveModal,
-  ResponsiveModalTrigger,
   ResponsiveModalContent,
   ResponsiveModalClose,
   ResponsiveModalTitle,
