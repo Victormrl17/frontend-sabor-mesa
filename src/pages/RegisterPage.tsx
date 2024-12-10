@@ -21,8 +21,6 @@ const RegisterPage = () => {
   const [error, setError] = useState('') // Estado para errores
   const navigate = useNavigate()
 
-  // Usar la variable de entorno VITE_API_URL (de Vercel) para la base URL
-  const API_BASE_URL = import.meta.env.VITE_API_URL
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -32,7 +30,7 @@ const RegisterPage = () => {
     try {
       // Usamos la variable de entorno API_BASE_URL para hacer la petición al back-end
       const backendUrl = process.env.VITE_API_URL|| 'http://localhost:3000'; // Usar la variable de entorno o la URL predeterminada
-      await axios.post(`${VITE_API_URL}/api/users/register`, {
+       await axios.post(`${backendUrl}/api/users/register`, {
         name,
         email,
         password
