@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import axios from 'axios'
+import { API_BASE_URL } from '../config' // Importamos la constante API_BASE_URL
 import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import {
@@ -13,7 +14,6 @@ import {
 } from '@/components/ui/modal'
 import { toast, ToastContainer } from 'react-toastify' // Import toast and ToastContainer
 import 'react-toastify/dist/ReactToastify.css' // Import the CSS for notifications
-import { API_BOOKINGS_URL } from '@/config'
 
 interface Booking {
   id: number
@@ -45,9 +45,12 @@ const BookingsPage = () => {
     const fetchBookings = async () => {
       const token = localStorage.getItem('token')
       try {
-        const response = await axios.get('${API_BOOKINGS_URL}/bookings/user', {
-          headers: { Authorization: `Bearer ${token}` }
-        })
+        const response = await axios.get(
+          `${API_BASE_URL}/api/bookings/user`, // Usamos la constante API_BASE_URL
+          {
+            headers: { Authorization: `Bearer ${token}` }
+          }
+        )
         setBookings(response.data as Booking[])
       } catch (error) {
         console.error('Error al cargar las reservas', error)
@@ -67,7 +70,7 @@ const BookingsPage = () => {
     try {
       const token = localStorage.getItem('token')
       const response = await axios.get(
-        `${API_BOOKINGS_URL}/bookings/${bookingId}/details`,
+        `${API_BASE_URL}/api/bookings/${bookingId}/details`, // Usamos la constante API_BASE_URL
         {
           headers: { Authorization: `Bearer ${token}` }
         }
@@ -96,7 +99,7 @@ const BookingsPage = () => {
     const token = localStorage.getItem('token')
     try {
       const response = await axios.delete(
-        `${API_BOOKINGS_URL}/bookings/${bookingId}`,
+        `${API_BASE_URL}/api/bookings/${bookingId}`, // Usamos la constante API_BASE_URL
         {
           headers: { Authorization: `Bearer ${token}` }
         }
