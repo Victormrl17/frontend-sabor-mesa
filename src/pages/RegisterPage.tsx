@@ -12,6 +12,8 @@ import {
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Link } from 'react-router-dom'
+import { toast, ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 const RegisterPage = () => {
   const [name, setName] = useState('')
@@ -33,10 +35,33 @@ const RegisterPage = () => {
         { name, email, password },
         { headers: { 'Content-Type': 'application/json' } }
       )
-      alert('Registro exitoso, ahora puedes iniciar sesión.')
-      navigate('/login')
+
+      toast.success('¡Registro exitoso! Ahora puedes iniciar sesión.', {
+        position: 'top-right',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined
+      })
+
+      setTimeout(() => {
+        navigate('/login')
+      }, 6000)
     } catch (error) {
       setError('Error al registrarse. Intenta nuevamente.')
+
+      // Notificación de error
+      toast.error('Hubo un problema al registrarte. Intenta nuevamente.', {
+        position: 'top-right',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined
+      })
     } finally {
       setLoading(false)
     }
@@ -140,6 +165,8 @@ const RegisterPage = () => {
           </CardFooter>
         )}
       </Card>
+
+      <ToastContainer />
     </main>
   )
 }

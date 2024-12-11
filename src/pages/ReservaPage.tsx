@@ -1,17 +1,18 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import axios from 'axios'
 import {
   Card,
   CardHeader,
   CardContent,
   CardTitle,
-  CardDescription,
-  // @ts-ignore
-  CardFooter
+  CardDescription
 } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { API_BASE_URL } from '@/config'
+
+import { toast, ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 interface ReservaFormData {
   date: string
@@ -26,6 +27,15 @@ const ReservaPage = () => {
   // @ts-ignore
   const [restaurantId, setRestaurantId] = useState<number>(1)
 
+  useEffect(() => {
+    const today = new Date()
+    const todayString = today.toISOString().slice(0, 16)
+    setFormData(prevFormData => ({
+      ...prevFormData,
+      date: todayString
+    }))
+  }, [])
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
     setFormData({
@@ -38,7 +48,7 @@ const ReservaPage = () => {
     e.preventDefault()
 
     if (!formData.date || formData.peopleCount <= 0) {
-      alert(
+      toast.error(
         'Por favor, ingrese una fecha válida y un número de personas mayor a cero.'
       )
       return
@@ -50,7 +60,7 @@ const ReservaPage = () => {
     try {
       const token = localStorage.getItem('token')
       if (!token) {
-        alert('No estás autenticado. Por favor, inicia sesión.')
+        toast.error('No estás autenticado. Por favor, inicia sesión.')
         return
       }
       // @ts-ignore
@@ -66,10 +76,15 @@ const ReservaPage = () => {
         }
       )
 
-      alert('Reserva realizada con éxito')
+      toast.success('Reserva realizada con éxito.')
+
+      setFormData({
+        date: '',
+        peopleCount: 1
+      })
     } catch (error) {
       console.error('Error al crear la reserva', error)
-      alert('Error al realizar la reserva')
+      toast.error('Error al realizar la reserva.')
     }
   }
 
@@ -100,6 +115,7 @@ const ReservaPage = () => {
                   type='datetime-local'
                   value={formData.date}
                   onChange={handleInputChange}
+                  min={new Date().toISOString().slice(0, 16)}
                   className='w-full p-2 border rounded mt-2'
                 />
               </div>
@@ -130,6 +146,8 @@ const ReservaPage = () => {
           </form>
         </CardContent>
       </Card>
+
+      <ToastContainer />
     </main>
   )
 }

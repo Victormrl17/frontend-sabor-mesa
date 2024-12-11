@@ -39,6 +39,7 @@ const BookingsPage = () => {
     null
   )
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     const fetchBookings = async () => {
@@ -56,6 +57,8 @@ const BookingsPage = () => {
           hideProgressBar: true,
           theme: 'light'
         })
+      } finally {
+        setLoading(false)
       }
     }
     fetchBookings()
@@ -89,7 +92,6 @@ const BookingsPage = () => {
     }
   }
 
-  // Eliminar una reserva
   const handleDeleteBooking = async (bookingId: number) => {
     const token = localStorage.getItem('token')
     try {
@@ -118,6 +120,22 @@ const BookingsPage = () => {
         theme: 'light'
       })
     }
+  }
+
+  if (loading) {
+    return (
+      <div className='flex justify-center items-center min-h-screen bg-gradient-to-r'>
+        <div className='relative'>
+          <div className='absolute inset-0 rounded-lg' />
+          <div className='flex flex-col justify-center items-center z-10'>
+            <div className='loader animate-spin border-8 border-t-4 border-blue-600 rounded-full w-24 h-24 mb-4' />
+            <p className='text-2xl text-black font-semibold'>
+              Cargando reservas...
+            </p>
+          </div>
+        </div>
+      </div>
+    )
   }
 
   return (

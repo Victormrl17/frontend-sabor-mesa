@@ -18,6 +18,7 @@ interface Restaurant {
 
 const RestaurantsPage = () => {
   const [restaurants, setRestaurants] = useState<Restaurant[]>([])
+  const [loading, setLoading] = useState(true) // Estado de carga
 
   const getReviewData = (comments: { rating: number }[]) => {
     if (comments.length === 0) {
@@ -58,6 +59,8 @@ const RestaurantsPage = () => {
           hideProgressBar: true,
           theme: 'light'
         })
+      } finally {
+        setLoading(false)
       }
     }
     fetchRestaurants()
@@ -65,63 +68,79 @@ const RestaurantsPage = () => {
 
   return (
     <div className='container mx-auto px-4 py-4 p-6 min-h-screen'>
-      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4'>
-        {restaurants.map(restaurant => {
-          const { avgRating, reviewCount } = getReviewData(restaurant.comments)
-          return (
-            <div
-              key={restaurant.id}
-              className='bg-white rounded-lg overflow-hidden shadow-lg'
-            >
-              <div className='p-4'>
-                {restaurant.images.length > 1 ?
-                  <Carousel
-                    showThumbs={false}
-                    infiniteLoop
-                    useKeyboardArrows
-                    autoPlay
-                    interval={3000}
-                    className='w-full h-40 md:h-56'
-                  >
-                    {restaurant.images.map((image, index) => (
-                      <div key={image} className='w-full h-full'>
-                        <img
-                          src={image}
-                          alt={`${restaurant.name} - imagen ${index + 1}`}
-                          className='w-full h-full object-cover rounded-md'
-                        />
-                      </div>
-                    ))}
-                  </Carousel>
-                : <img
-                    alt={restaurant.name}
-                    className='w-full h-40 md:h-56 object-cover rounded-md'
-                    src={restaurant.images[0]}
-                  />
-                }
-              </div>
-              <div className='p-4'>
-                <h2 className='text-xl font-bold mt-2 text-gray-900 dark:text-white'>
-                  {restaurant.name}
-                </h2>
-                <p className='text-sm text-gray-600 dark:text-gray-300'>
-                  {avgRating} <i className='fas fa-star text-yellow-500' /> /{' '}
-                  {reviewCount} Reviews
-                </p>
-                <p className='text-sm text-gray-600 dark:text-gray-300'>
-                  {restaurant.cuisine} | {restaurant.location}
-                </p>
-                <Link
-                  to={`/restaurants/${restaurant.id}`}
-                  className='text-blue-500 mt-2 block'
-                >
-                  Detalle →
-                </Link>
-              </div>
+      {/* Mostrar un loader personalizado mientras se cargan los restaurantes */}
+      {loading ?
+        <div className='flex justify-center items-center min-h-screen bg-gradient-to-r '>
+          <div className='relative'>
+            <div className='absolute inset-0  rounded-lg' />
+            <div className='flex flex-col justify-center items-center z-10'>
+              <div className='loader animate-spin border-8 border-t-4 border-blue-600 rounded-full w-24 h-24 mb-4' />
+              <p className='text-2xl text-black font-semibold'>
+                Cargando restaurantes...
+              </p>
             </div>
-          )
-        })}
-      </div>
+          </div>
+        </div>
+      : <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4'>
+          {restaurants.map(restaurant => {
+            const { avgRating, reviewCount } = getReviewData(
+              restaurant.comments
+            )
+            return (
+              <div
+                key={restaurant.id}
+                className='bg-white rounded-lg overflow-hidden shadow-lg'
+              >
+                <div className='p-4'>
+                  {restaurant.images.length > 1 ?
+                    <Carousel
+                      showThumbs={false}
+                      infiniteLoop
+                      useKeyboardArrows
+                      autoPlay
+                      interval={3000}
+                      className='w-full h-40 md:h-56'
+                    >
+                      {restaurant.images.map((image, index) => (
+                        <div key={image} className='w-full h-full'>
+                          <img
+                            src={image}
+                            alt={`${restaurant.name} - imagen ${index + 1}`}
+                            className='w-full h-full object-cover rounded-md'
+                          />
+                        </div>
+                      ))}
+                    </Carousel>
+                  : <img
+                      alt={restaurant.name}
+                      className='w-full h-40 md:h-56 object-cover rounded-md'
+                      src={restaurant.images[0]}
+                    />
+                  }
+                </div>
+                <div className='p-4'>
+                  <h2 className='text-xl font-bold mt-2 text-gray-900 dark:text-white'>
+                    {restaurant.name}
+                  </h2>
+                  <p className='text-sm text-gray-600 dark:text-gray-300'>
+                    {avgRating} <i className='fas fa-star text-yellow-500' /> /{' '}
+                    {reviewCount} Reviews
+                  </p>
+                  <p className='text-sm text-gray-600 dark:text-gray-300'>
+                    {restaurant.cuisine} | {restaurant.location}
+                  </p>
+                  <Link
+                    to={`/restaurants/${restaurant.id}`}
+                    className='text-blue-500 mt-2 block'
+                  >
+                    Detalle →
+                  </Link>
+                </div>
+              </div>
+            )
+          })}
+        </div>
+      }
 
       <ToastContainer />
     </div>

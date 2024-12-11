@@ -43,13 +43,17 @@ const LoginPage = () => {
       )
       localStorage.setItem('token', response.data.token)
       login()
+
       navigate('/restaurants')
-      toast.success('Bienvenido de vuelta!', {
-        position: 'top-center',
-        autoClose: 3000,
-        hideProgressBar: true,
-        theme: 'light'
-      })
+
+      setTimeout(() => {
+        toast.success('Bienvenido de vuelta!', {
+          position: 'top-center',
+          autoClose: 3000,
+          hideProgressBar: true,
+          theme: 'light'
+        })
+      }, 100)
     } catch (error) {
       toast.error('Error al iniciar sesión. Verifica tus credenciales.', {
         position: 'top-center',

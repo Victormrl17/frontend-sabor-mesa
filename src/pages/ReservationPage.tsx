@@ -23,6 +23,8 @@ const RestaurantDetailPage = () => {
   const [restaurant, setRestaurant] = useState<Restaurant | null>(null)
   const [reviews, setReviews] = useState<Comment[]>([])
   const [newReview, setNewReview] = useState({ content: '', rating: 1 })
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     const fetchRestaurantDetails = async () => {
@@ -37,6 +39,7 @@ const RestaurantDetailPage = () => {
         setRestaurant(response.data)
       } catch (error) {
         console.error('Error al cargar los detalles del restaurante', error)
+        setError('Hubo un problema al cargar los detalles del restaurante.')
       }
     }
 
@@ -48,12 +51,18 @@ const RestaurantDetailPage = () => {
         setReviews(response.data)
       } catch (error) {
         console.error('Error al cargar las reseñas', error)
+        setError('Hubo un problema al cargar las reseñas.')
       }
     }
 
     if (restaurantId) {
-      fetchRestaurantDetails()
-      fetchReviews()
+      setLoading(true)
+      Promise.all([fetchRestaurantDetails(), fetchReviews()])
+        .then(() => setLoading(false))
+        .catch(() => setLoading(false))
+    } else {
+      setError('El ID del restaurante no es válido.')
+      setLoading(false)
     }
   }, [restaurantId])
 
@@ -98,8 +107,28 @@ const RestaurantDetailPage = () => {
     }
   }
 
+  if (error) {
+    return <div className='error-message'>{error}</div>
+  }
+
+  if (loading) {
+    return (
+      <div className='flex justify-center items-center min-h-screen bg-gradient-to-r'>
+        <div className='relative'>
+          <div className='absolute inset-0 rounded-lg' />
+          <div className='flex flex-col justify-center items-center z-10'>
+            <div className='loader animate-spin border-8 border-t-4 border-blue-600 rounded-full w-24 h-24 mb-4' />
+            <p className='text-2xl text-black font-semibold'>
+              Cargando detalles...
+            </p>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   if (!restaurant) {
-    return <div>Cargando detalles del restaurante...</div>
+    return <div>No se encontró el restaurante.</div>
   }
 
   return (
